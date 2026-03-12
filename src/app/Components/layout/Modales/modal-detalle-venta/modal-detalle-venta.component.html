@@ -1,38 +1,38 @@
 <h2 mat-dialog-title>Detalle Venta</h2>
 
 <mat-dialog-content>
-    
+
         <mat-grid-list cols="4" rowHeight="70px">
             <mat-grid-tile>
                 <mat-form-field appearance="fill" style="width: 95%;">
                     <mat-label>Fecha Registro</mat-label>
-                    <input matInput [(ngModel)]="fechaRegistro">                    
+                    <input matInput [(ngModel)]="fechaRegistro">
                 </mat-form-field>
             </mat-grid-tile>
 
             <mat-grid-tile>
                 <mat-form-field appearance="fill" style="width: 95%;">
                     <mat-label>Numero Venta</mat-label>
-                    <input matInput [(ngModel)]="numeroDocumento">                    
+                    <input matInput [(ngModel)]="numeroDocumento">
                 </mat-form-field>
             </mat-grid-tile>
 
             <mat-grid-tile>
                 <mat-form-field appearance="fill" style="width: 95%;">
-                    <mat-label>Tipo PAgo</mat-label>
-                    <input matInput [(ngModel)]="tipoPago">                    
+                    <mat-label>Tipo Pago</mat-label>
+                    <input matInput [(ngModel)]="tipoPago">
                 </mat-form-field>
             </mat-grid-tile>
 
             <mat-grid-tile>
                 <mat-form-field appearance="fill" style="width: 95%;">
                     <mat-label>Total</mat-label>
-                    <input matInput [(ngModel)]="total">                    
-                </mat-form-field>v
-                  
+                    <input matInput [(ngModel)]="total">
+                </mat-form-field>
+
             </mat-grid-tile>
 
-           
+
         </mat-grid-list>
 
         <h4>Lista de productos</h4>
@@ -45,16 +45,16 @@
             <ng-container matColumnDef="cantidad">
                 <th mat-header-cell *matHeaderCellDef> Cantidad</th>
                 <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
-            </ng-container> 
+            </ng-container>
             <ng-container matColumnDef="precio">
                 <th mat-header-cell *matHeaderCellDef> Precio</th>
                 <td mat-cell *matCellDef="let element"> {{element.precioTexto}} </td>
-            </ng-container> 
+            </ng-container>
             <ng-container matColumnDef="total">
                 <th mat-header-cell *matHeaderCellDef> Total</th>
                 <td mat-cell *matCellDef="let element"> {{element.totalTexto}} </td>
-            </ng-container>           
-            
+            </ng-container>
+
             <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
             <tr mat-row *matRowDef="let row; columns: columnasTabla;"></tr>
         </table>
