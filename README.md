@@ -5,6 +5,7 @@
 [![Angular 16](https://img.shields.io/badge/Angular-16-red)](https://angular.io)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org)
 [![Docker](https://img.shields.io/badge/Docker-✅-2496ED)](https://www.docker.com)
+[![Docker Image](https://img.shields.io/docker/v/alexjuniortupapa/sistemaventa-frontend?label=Docker%20Hub&color=0db7ed)](https://hub.docker.com/r/alexjuniortupapa/sistemaventa-frontend)
 [![Nginx](https://img.shields.io/badge/Nginx-Alpine-009639)](https://nginx.org)
 
 ---
