@@ -1,32 +1,35 @@
 # =========================================
-# ETAPA 1: BUILD — Node.js (usamos tag válido)
+# 📦 ETAPA 1: BUILD — Angular
 # =========================================
 FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copiar package.json primero para aprovechar caché de npm
+# 🔥 TRUCO: Copiar package*.json primero para aprovechar cache de npm
 COPY package*.json ./
 
-# Instalar dependencias (Angular 16 es compatible con Node 18)
+# Instalar dependencias (se cachea si package-lock.json no cambia)
 RUN npm ci --legacy-peer-deps
 
-# Copiar código fuente y compilar
+# Copiar el resto del código fuente
 COPY . .
-RUN npm run build --configuration=production || true
+
+# ✅ Compilar en producción (SIN || true — queremos que falle si hay error)
+RUN npm run build -- --configuration=production
 
 # =========================================
-# ETAPA 2: RUNTIME — Nginx Alpine
+# 🚀 ETAPA 2: RUNTIME — Nginx
 # =========================================
-FROM nginx:alpine AS runtime
+FROM nginx:1.26-alpine AS runtime
 
-# Configuración de Nginx para Angular (SPA routing)
+# Copiar configuración personalizada de Nginx (con proxy /api)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copiar archivos compilados de Angular
-# outputPath en angular.json: "dist/app-sistema-venta"
+# Copiar los archivos compilados desde la etapa de build
 COPY --from=build /app/dist/app-sistema-venta /usr/share/nginx/html
 
+# Nginx por defecto escucha en puerto 80
 EXPOSE 80
 
+# Comando por defecto de la imagen nginx:alpine
 CMD ["nginx", "-g", "daemon off;"]

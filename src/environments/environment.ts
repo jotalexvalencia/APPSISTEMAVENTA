@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  endpoint: "http://192.168.0.15:8080/api/"
+  // ✅ Usa proxy de Nginx: el navegador llama a /api/* y Nginx redirige a api:8080
+  endpoint: "/api/"
 };
