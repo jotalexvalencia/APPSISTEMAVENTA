@@ -23,8 +23,8 @@ export class UtilidadService {
 
   obtenerSesionUsuario(){
     const dataCadena = localStorage.getItem("usuario");
-    const usuario = JSON.parse(dataCadena!);
-    return usuario;
+    if (!dataCadena) return null;
+    return JSON.parse(dataCadena);
   }
 
   eliminarSesionUsuario(){
