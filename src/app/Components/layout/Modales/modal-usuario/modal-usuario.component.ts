@@ -70,10 +70,11 @@ export class ModalUsuarioComponent implements OnInit {
     }
   }
 
-  onFileSelected(event: Event): void {
+  async onFileSelected(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
+      const blob = await this._utilidadServicio.redimensionarImagen(input.files[0]);
+      this.selectedFile = new File([blob], input.files[0].name, { type: blob.type });
       const reader = new FileReader();
       reader.onload = () => this.previewUrl = reader.result as string;
       reader.readAsDataURL(this.selectedFile);
