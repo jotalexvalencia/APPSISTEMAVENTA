@@ -160,6 +160,19 @@ server {
         proxy_read_timeout 60s;
     }
 
+    # 🖼️ PROXY PARA IMÁGENES: Sirve /imagenes/* desde la API (UseStaticFiles)
+    location ^~ /imagenes/ {
+        proxy_pass http://api:8080/imagenes/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+
     # 🚀 Cache agresivo para assets con hash
     location ~* \.(js|css|png|jpg|svg|woff2?)$ {
         expires 1y;
@@ -209,6 +222,7 @@ curl -I http://localhost:4200/index.html
 - ✅ Routing SPA funcional con guards de autenticación (redirección a login si no hay token)
 - ✅ Interceptor HTTP que inyecta `Authorization: Bearer <token>` automáticamente
 - ✅ Manejo centralizado de errores 401/403 + refresh token automático
+- ✅ Imágenes de productos y fotos de usuarios mostradas en tablas (proxy Nginx `/imagenes/` → API)
 - ✅ Docker multi-stage Alpine: imagen final ~65MB vs ~900MB sin optimizar
 - ✅ Nginx configurado para SPA: `try_files` + proxy `/api` + cache headers estratégicos
 - ✅ Build reproducible: mismo artefacto en local, CI/CD y producción
@@ -274,5 +288,5 @@ Desarrollador de Software — Colombia
 ---
 
 > 📄 **Licencia**: MIT — Libre uso con atribución.  
-> 🔄 **Última actualización**: Mayo 2026 — Angular 16 + Docker multi-stage + Nginx 1.26 Alpine + Proxy `/api`
+> 🔄 **Última actualización**: Junio 2026 — Angular 16 + Docker multi-stage + Nginx 1.26 Alpine + Proxy `/api` + `/imagenes/`
 
