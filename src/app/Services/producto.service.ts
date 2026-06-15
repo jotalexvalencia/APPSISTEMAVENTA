@@ -28,4 +28,10 @@ export class ProductoService {
   eliminar(id:number):Observable<ResponseApi>{
     return this.http.delete<ResponseApi>(`${this.urlApi}Eliminar/${id}`)
   }
+
+  subirImagen(idProducto: number, archivo: File): Observable<ResponseApi>{
+    const formData = new FormData();
+    formData.append('archivo', archivo);
+    return this.http.post<ResponseApi>(`${this.urlApi}SubirImagen/${idProducto}`, formData)
+  }
 }

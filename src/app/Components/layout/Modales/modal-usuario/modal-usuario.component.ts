@@ -25,6 +25,8 @@ export class ModalUsuarioComponent implements OnInit {
   tituloAccion:string="Agregar";
   botonAccion:string="Guardar";
   listaRoles:Rol[]=[];
+  selectedFile: File | null = null;
+  previewUrl: string | null = null;
 
   constructor(
     private modalActual: MatDialogRef<ModalUsuarioComponent>,
@@ -68,6 +70,16 @@ export class ModalUsuarioComponent implements OnInit {
     }
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => this.previewUrl = reader.result as string;
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
   guardarEditar_Usuario(){
     const _usuario:Usuario = {
       idUsuario:this.datosUsuario==null?0:this.datosUsuario.idUsuario,
@@ -84,9 +96,19 @@ export class ModalUsuarioComponent implements OnInit {
       this._usuarioServicio.guardar(_usuario).subscribe({
         next:(data)=>{
           if(data.status){
-            this._utilidadServicio.mostrarAlerta("El usuario fue registrado","Exito");
-            this.modalActual.close("true")
-          }else
+            if (this.selectedFile && data.value?.idUsuario) {
+              this._usuarioServicio.subirFoto(data.value.idUsuario, this.selectedFile).subscribe({
+                next: () => {
+                  this._utilidadServicio.mostrarAlerta("El usuario fue registrado","Exito");
+                  this.modalActual.close("true")
+                },
+                error: () => {}
+              });
+            } else {
+              this._utilidadServicio.mostrarAlerta("El usuario fue registrado","Exito");
+              this.modalActual.close("true")
+            }
+          } else
             this._utilidadServicio.mostrarAlerta("No se pudo registrar el usuario","Error");
         },
         error:(e)=>{}
@@ -95,9 +117,19 @@ export class ModalUsuarioComponent implements OnInit {
       this._usuarioServicio.editar(_usuario).subscribe({
         next:(data)=>{
           if(data.status){
-            this._utilidadServicio.mostrarAlerta("El usuario fue editado","Exito");
-            this.modalActual.close("true")
-          }else
+            if (this.selectedFile) {
+              this._usuarioServicio.subirFoto(_usuario.idUsuario, this.selectedFile).subscribe({
+                next: () => {
+                  this._utilidadServicio.mostrarAlerta("El usuario fue editado","Exito");
+                  this.modalActual.close("true")
+                },
+                error: () => {}
+              });
+            } else {
+              this._utilidadServicio.mostrarAlerta("El usuario fue editado","Exito");
+              this.modalActual.close("true")
+            }
+          } else
             this._utilidadServicio.mostrarAlerta("No se pudo editar el usuario","Error");
         },
         error:(e) =>{}

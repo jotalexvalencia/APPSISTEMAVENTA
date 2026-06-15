@@ -20,6 +20,8 @@ export class ModalProductoComponent {
   tituloAccion:string="Agregar";
   botonAccion:string="Guardar";
   listaCategorias:Categoria[]=[];
+  selectedFile: File | null = null;
+  previewUrl: string | null = null;
 
   constructor(
     private modalActual: MatDialogRef<ModalProductoComponent>,
@@ -66,6 +68,16 @@ export class ModalProductoComponent {
     }    
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => this.previewUrl = reader.result as string;
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
   guardarEditar_Producto(){
     const _producto:Producto = {
       idProducto:this.datosProducto==null?0:this.datosProducto.idProducto,
@@ -82,9 +94,19 @@ export class ModalProductoComponent {
       this._productoServicio.guardar(_producto).subscribe({
         next:(data)=>{
           if(data.status){
-            this._utilidadServicio.mostrarAlerta("El producto fue registrado","Exito");
-            this.modalActual.close("true")
-          }else
+            if (this.selectedFile && data.value?.idProducto) {
+              this._productoServicio.subirImagen(data.value.idProducto, this.selectedFile).subscribe({
+                next: () => {
+                  this._utilidadServicio.mostrarAlerta("El producto fue registrado","Exito");
+                  this.modalActual.close("true")
+                },
+                error: () => {}
+              });
+            } else {
+              this._utilidadServicio.mostrarAlerta("El producto fue registrado","Exito");
+              this.modalActual.close("true")
+            }
+          } else
             this._utilidadServicio.mostrarAlerta("No se pudo registrar el producto","Error");
         },
         error:(e)=>{}
@@ -93,9 +115,19 @@ export class ModalProductoComponent {
       this._productoServicio.editar(_producto).subscribe({
         next:(data)=>{
           if(data.status){
-            this._utilidadServicio.mostrarAlerta("El producto fue editado","Exito");
-            this.modalActual.close("true")
-          }else
+            if (this.selectedFile) {
+              this._productoServicio.subirImagen(_producto.idProducto, this.selectedFile).subscribe({
+                next: () => {
+                  this._utilidadServicio.mostrarAlerta("El producto fue editado","Exito");
+                  this.modalActual.close("true")
+                },
+                error: () => {}
+              });
+            } else {
+              this._utilidadServicio.mostrarAlerta("El producto fue editado","Exito");
+              this.modalActual.close("true")
+            }
+          } else
             this._utilidadServicio.mostrarAlerta("No se pudo editar el producto","Error");
         },
         error:(e) =>{}

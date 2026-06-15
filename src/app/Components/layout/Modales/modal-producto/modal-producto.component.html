@@ -47,6 +47,16 @@
                     </mat-select>
                 </mat-form-field>
             </mat-grid-tile>
+
+            <mat-grid-tile>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:100%">
+                    <img *ngIf="previewUrl" [src]="previewUrl" style="width:80px;height:80px;object-fit:cover;border-radius:4px;">
+                    <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">
+                        <mat-icon>upload</mat-icon> {{previewUrl?'Cambiar':'Subir'}} Imagen
+                    </button>
+                    <input #fileInput type="file" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none" (change)="onFileSelected($event)">
+                </div>
+            </mat-grid-tile>
         </mat-grid-list>
     </form>
 

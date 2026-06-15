@@ -44,4 +44,9 @@ export class UsuarioService {
     return this.http.delete<ResponseApi>(`${this.urlApi}Eliminar/${id}`)
   }
 
+  subirFoto(idUsuario: number, archivo: File): Observable<ResponseApi>{
+    const formData = new FormData();
+    formData.append('archivo', archivo);
+    return this.http.post<ResponseApi>(`${this.urlApi}SubirFoto/${idUsuario}`, formData)
+  }
 }
