@@ -75,6 +75,7 @@ export class ModalUsuarioComponent implements OnInit {
       correo: this.formularioUsuario.value.correo,
       idRol: this.formularioUsuario.value.idRol,
       rolDescripcion:"",
+      urlFoto: this.datosUsuario?.urlFoto ?? '',
       clave:this.formularioUsuario.value.clave,
       esActivo: parseInt(this.formularioUsuario.value.esActivo),
     }

@@ -20,6 +20,13 @@
 
         <div class="mat-elevation-z2">
             <table mat-table [dataSource]="dataListaProductos">
+                <ng-container matColumnDef="imagen">
+                    <th mat-header-cell *matHeaderCellDef> Imagen</th>
+                    <td mat-cell *matCellDef="let element">
+                        <img *ngIf="element.urlImagen" [src]="element.urlImagen" alt="{{element.nombre}}" style="width:50px;height:50px;object-fit:cover;border-radius:4px;">
+                        <span *ngIf="!element.urlImagen">-</span>
+                    </td>
+                </ng-container>
                 <ng-container matColumnDef="nombre">
                     <th mat-header-cell *matHeaderCellDef> Nombre </th>
                     <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>

@@ -72,6 +72,7 @@ export class ModalProductoComponent {
       nombre: this.formularioProducto.value.nombre,
       idCategoria: this.formularioProducto.value.idCategoria,
       descripcionCategoria: "",
+      urlImagen: this.datosProducto?.urlImagen ?? '',
       precio: this.formularioProducto.value.precio,
       stock:this.formularioProducto.value.stock,
       esActivo: parseInt(this.formularioProducto.value.esActivo),

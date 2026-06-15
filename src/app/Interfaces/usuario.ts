@@ -4,6 +4,7 @@ export interface Usuario {
     correo:string,
     idRol:number,
     rolDescripcion:string,
+    urlFoto:string,
     clave:string,
     esActivo:number 
 }
