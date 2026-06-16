@@ -87,8 +87,9 @@ export class ReporteComponent implements OnInit {
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(this.listaVentasReporte);
 
-    XLSX.utils.book_append_sheet(wb,ws,"Reporte"); // Libro,hoja,nombre
-    XLSX.writeFile(wb,"Reporte Ventas.xlsx");
+    const fecha = moment().format('DD-MM-YYYY_HH-mm-ss');
+    XLSX.utils.book_append_sheet(wb,ws,"Reporte");
+    XLSX.writeFile(wb,`Reporte Ventas ${fecha}.xlsx`);
   }
 
 }
